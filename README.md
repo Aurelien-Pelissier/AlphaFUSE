@@ -13,7 +13,7 @@ The algorithm is precompiled and can be run directly from the python script `FUS
 The dataset involve two files, the `.data` file contains a matrix `[n * f]`,  where *n* is the number of training example and *f* the number of features. the `.labels` file is an array `[f]` that corresponds to the class label associated to each example.
 
 #### Output
-Each 2000 iteration, the program display the current candidate for the best feature subset (considered to be the path with highest average at the end of the search), along with its corresponding score:  
+Each 2000 iteration, the program display the current candidate for the best feature subset (considered to be the path with highest average at the current state), along with its corresponding score:  
 `
 Path with Highest average:
   [ 431, 214, 543 ] -> 0.9879`
