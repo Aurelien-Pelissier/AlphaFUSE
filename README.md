@@ -19,7 +19,7 @@ Path with Highest average:
   [ 431, 214, 543 ] -> 0.9879`
   
  At the end of the search (when the maximal number of iteration is reached), the program write the best feature subset in `BigResults.txt`, and all detailed informations in output files `Output_Tree.txt`, `Output_Reward.txt` and `Result.txt`.
-(By running the script `plot_reward.py`, we can plot the evelution of the reward during the search)
+(By running the script `plot_reward.py`, we can plot the evolution of the reward during the search)
 
 
 &nbsp;
