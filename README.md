@@ -18,7 +18,7 @@ The script `FUSE.py` involve some input parameters
     Nrepeat =  1000 #Number of time we apply FUSE
       #(Obtained best feature subset after each execution is saved in BigResuts.txt)
     
-    Nt = 100000                  #Number of iteration per FUSE execution
+    Nt = 100000                 #Number of iteration per FUSE execution
     dataset = 'Madelon.data'    #Name of the file containing the dataset
     labels = 'Madelon.labels'   #Name of the file containing the corresponding labels
     k = 20                      #Number of nearest neighbors for reward computation
