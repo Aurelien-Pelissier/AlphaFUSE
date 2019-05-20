@@ -82,6 +82,7 @@ def study_FUSE_results(dataset):
     plt.plot(scores)
     plt.xlabel("Feature index")
     plt.ylabel("Score (= occurence in best feature set)")
+	plt.show()
     
     print("  FUSE was executed %.0f times" % nFUSE)
     print("  FUSE average final reward is %.3f" % acc)
