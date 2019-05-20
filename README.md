@@ -28,7 +28,7 @@ The script `FUSE.py` involve some input parameters
  For a satistically significant study, Nrepeat =  1000 and Nt = 100000 are good choices, but typically requires overnight computation.
 
 #### Output
-Each 2000 iteration, the program display the current candidate for the best feature subset (considered to be the path with highest average at the current state), along with its corresponding score:  
+Each 2000 iteration during the FUSE execution, the program display the current candidate for the best feature subset (considered to be the path with highest average at the current state), along with its corresponding score:  
 `
 Path with Highest average:
   [ 431, 214, 543 ] -> 0.9879`
