@@ -9,8 +9,23 @@ This repository contains the source code to perform feature selection with a rei
 #### Requirements
 The algorithm is precompiled and can be run directly from the python script `FUSE.py` available in the `\FUSE` folder (requires `Python 3.5`). The algorithm was compiled with a `C++` compiler in Code::Blocks, any modification of the core algorithm (in `\FUSE_src`) will require to recompile the code (requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler).
 
-#### Datasets
+#### Dataset
 The dataset involve two files, the `.data` file contains a matrix `[n * f]`,  where *n* is the number of training example and *f* the number of features. the `.labels` file is an array `[f]` that corresponds to the class label associated to each example.
+
+#### Input
+The script `FUSE.py` involve some input parameters  
+```
+    Nrepeat =  1000 #Number of time we apply FUSE
+      #(Obtained best feature subset after each execution is saved in BigResuts.txt)
+    
+    Nt = 100000                  #Number of iteration per FUSE execution
+    dataset = 'Madelon.data'    #Name of the file containing the dataset
+    labels = 'Madelon.labels'   #Name of the file containing the corresponding labels
+    k = 20                      #Number of nearest neighbors for reward computation
+    reward = 'AUC'              #ACC or AUC
+    rseed = 0                   #Seed of random generator
+ ```
+ For a satistically significant study, Nrepeat =  1000 and Nt = 100000 are good choices, but typically requires overnight computation.
 
 #### Output
 Each 2000 iteration, the program display the current candidate for the best feature subset (considered to be the path with highest average at the current state), along with its corresponding score:  
