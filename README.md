@@ -1,4 +1,7 @@
 # FUSE-for-Raman-Spectroscopy
+<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/latt.png" width=400>
+
+Dataset often contains many features that are either redundant or irrelevant, and can thus be removed without incurring much loss of information. Decreasing the number of feature have the advantage of reducing overfitting, simplifying models, and also involve shorter training time, which makes it a key aspect in machine learning. 
 This repository contains the source code to perform feature selection with a reinforcement learning approach, where the feature set state space is represented by a Direct Acyclic Graph (DAG). It provides a precompiled `C++` implementation of the FUSE 2 algorithm [1], that is an improved version of the FUSE algorithm [2].
 
 &nbsp;
