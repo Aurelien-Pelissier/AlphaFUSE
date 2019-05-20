@@ -15,7 +15,7 @@ This repository contains the source code to perform feature selection with a rei
 The algorithm is precompiled and can be run directly from the python script `FUSE.py` available in the `\FUSE` folder (requires at least `Python 3.5`). The algorithm was compiled with a `C++` compiler in Code::Blocks, any modification of the core algorithm (in `\FUSE_src`) will require to recompile the code (requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler).
 
 #### Dataset
-The dataset involve two files, the `.data` file contains a matrix `[n * f]`,  where *n* is the number of training example and *f* the number of features. the `.labels` file is an array `[f]` that corresponds to the class label associated to each example.
+The dataset involve two files, the `.data` file contains a matrix `[n * f]`,  where *n* is the number of training example and *f* the number of features. the `.labels` file is an array `[n]` that corresponds to the class label associated to each example.
 
 #### Input
 The script `FUSE.py` involve some input parameters  
