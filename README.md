@@ -60,6 +60,8 @@ Once the stopping feature has been selected, the exploration stops and the rewar
 
 The original FUSE algorithm backpropagate the reward only for the nodes withing the current path. Updating all the parents might results in unpracticle updating time as the number of nodes to be updated at depth *d* scales as *d*!. Updating all the parents also does not guarantee the convergence of the UCT algorithm.
 
+<img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/MCTS.png" width=200>
+
 
 ### Simulation parameters
 The main simulation parameters can be changed in `src/Main.cpp`.
@@ -92,7 +94,7 @@ By running `plot_reward.py` (requires `Python 3`), we can plot the evelution of 
 
 All the informations are available in output files `Output_Tree.txt`, `Output_Reward.txt` and `Result.txt`.
 
-- The python interface allows alphaFUSe to be run more several times and to average the result over different seeds. The obtained features after each FUSE execution is saved in `BigResults.txt`
+- The python interface allows alphaFUSE to be run more several times and to average the result over different seeds. The obtained features after each FUSE execution is saved in `BigResults.txt`
 
 
 
