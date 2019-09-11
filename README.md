@@ -14,7 +14,7 @@ This repository contains the source code to perform feature selection with a rei
 ## Running the code
 
 #### Requirements
-The algorithm can be run directly with FUSE.py for windows user.
+The algorithm can be run directly with Alpha_FUSE.py for Windows user.
 
 The source is available in the `src/` foler, it requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or compilethe whole folder if you are using another IDE.
 
