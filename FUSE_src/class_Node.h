@@ -37,6 +37,7 @@ class Node
     bool tobe_updated;                              //just a tool for the back-propagation
     bool already_updated_score;                     //just a tool for the back-propagation
     double weight;                                  //just a tool for the back-propagation
+    bool selected_through_descent;                  //just a tool for the back-propagation
 
     //Methods
 

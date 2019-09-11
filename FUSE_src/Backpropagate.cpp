@@ -28,11 +28,12 @@ using namespace alglib;
 
 
 
-void   Backpropagate(Tree &T, Node &node, const int &fi, const boost::dynamic_bitset<> &Ft, const double &reward_V )
+void   Backpropagate(Tree &T, Node &node, const int &fi, const boost::dynamic_bitset<> &Ft, const double &reward_V, const Params &params)
 //backpropagate the statistic from the leaf node to all of the ancestors
 {
+    double alpha = params.alpha;
     Check_Ancestors(T, node);
-    Compute_Weights(T, T.N[0], 1.0);
+    Compute_Weights(T, T.N[0], 1.0, alpha);
     Update_Ancestors(T, T.N[0], fi, Ft, reward_V );
 }
 
@@ -79,7 +80,7 @@ void   Check_Ancestors(Tree &T, Node &node)
 }
 
 
-void Compute_Weights(Tree &T, Node &node, double current_weight)
+void Compute_Weights(Tree &T, Node &node, double current_weight, double alpha)
 //Compute the weight of each nodes who need to be updated
 {
     int f = node.sub_F.size()-1;
@@ -94,7 +95,7 @@ void Compute_Weights(Tree &T, Node &node, double current_weight)
         }
     }
 
-    if (n_chupd == 0) //it means that stopping feature or random exploration has been performed@-> It is a leaf node
+    if (n_chupd == 0) //it means that stopping feature or random exploration has been performed-> It is a leaf node
     {
         node.weight = 1.0;
         return;
@@ -107,12 +108,49 @@ void Compute_Weights(Tree &T, Node &node, double current_weight)
         if ((fi!=f) && (T.N[node.address_f[fi]].tobe_updated == true))
         {
             T.N[node.address_f[fi]].weight += ch_weight;
-            Compute_Weights(T, T.N[node.address_f[fi]], ch_weight);
+            Compute_Weights(T, T.N[node.address_f[fi]], ch_weight, alpha);
         }
     }
 }
 
 
+
+
+/*
+void Compute_Weights(Tree &T, Node &node, double current_weight, double alpha)
+//Compute the weight of each nodes who need to be updated
+{
+    int f = node.sub_F.size()-1;
+
+    int n_child = 0;
+    double ch_weight = 0;
+    for ( auto &fi : node.allowed_features )
+    {
+        if ((fi!=f) && (T.N[node.address_f[fi]].tobe_updated == true))
+        {
+
+            if (T.N[node.address_f[fi]].selected_through_descent == true)
+            {
+                T.N[node.address_f[fi]].weight = 1.0;
+                //cout << "descent" << endl;
+            }
+            else
+            {
+                T.N[node.address_f[fi]].weight = alpha;
+                //cout << "not descent" << alpha << endl;
+            }
+            Compute_Weights(T, T.N[node.address_f[fi]], ch_weight, alpha);
+            n_child ++;
+        }
+    }
+
+    if (n_child==0) //it means that stopping feature or random exploration has been performed -> It is a leaf node
+    {
+        node.weight = 1.0;
+        return;
+    }
+}
+*/
 
 
 void Update_Ancestors(Tree &T, Node &node, const int &f_last, const boost::dynamic_bitset<> &Ft, const double &reward_V )
@@ -138,7 +176,7 @@ void Update_Ancestors(Tree &T, Node &node, const int &f_last, const boost::dynam
     {
         f_child = f_last;
     }
-    Update_Node(T, node, f_child, Ft, reward_V); //We adjust the parent node AFTER that all its children has been updated
+    Update_Node(T, node, f_child, Ft, reward_V); //We adjust the parent node AFTER that all its children has been updated, (edit -- Not important ??)
     node.already_updated_score == true;
 }
 

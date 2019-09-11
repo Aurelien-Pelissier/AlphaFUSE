@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2018-03-12                                                                                              //
-// Updated : 2018-05-01                                                                                              //
+// Updated : 2019-07-26                                                                                              //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -118,7 +118,7 @@ void Run_feature_selection(Params &params)
                 }
             }
 
-            //choosing the most visited child node
+            //choosing the child node with highest av
             tf = TF.rbegin()->first;
             fi = TF.rbegin()->second;
             selected_features.push_back(fi);
@@ -183,13 +183,6 @@ void    Run_FUSE(Tree &T, vector <pair<double,int>> &gRAVE, Params &params, boos
             //cout << "debug" << endl;
         }
 
-        if ((it%2000 == 0) && (true))
-        {
-            Node N_best_path_Av = Find_Best_Node_Path_Av(T, params);
-            variables.reward_V2.push_back(N_best_path_Av.fs[1]);
-            variables.Depth2.push_back(N_best_path_Av.F_size);
-        }
-
         //reinitialize the feature subset to empty and clear the path;
         F = F.reset();    //start from empty feature subset after each iteration
         depth = 0;
@@ -198,13 +191,24 @@ void    Run_FUSE(Tree &T, vector <pair<double,int>> &gRAVE, Params &params, boos
             T.N[i].tobe_updated = 0;   //reset the values to zero for next backpropagation
             T.N[i].already_updated_score = 0;
             T.N[i].weight = 0;
+            T.N[i].selected_through_descent = 0;
         }
         T.N[0].weight = 1.0;
+        T.N[0].selected_through_descent = 1;
 
         //Explore the tree (until it chose final feature
         V = iterate(T, gRAVE, F, params, depth);
         variables.reward_V.push_back(V);
         variables.Depth.push_back(depth);
+
+
+        if (((it%2000 == 0) && (true)) || (it == params.Nt-1))
+        {
+            Node N_best_path_Av = Find_Best_Node_Path_Av(T, params);
+            variables.reward_V2.push_back(N_best_path_Av.fs[1]);
+            variables.Depth2.push_back(N_best_path_Av.F_size);
+        }
+
     }
 
 

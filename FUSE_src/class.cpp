@@ -26,8 +26,8 @@ using namespace std;
 //Params
 Params::~Params(){}
 Params::Params(const bool &m_pFS, const bool &m_KdTree_policy, const bool &m_Reward_policy, const int &m_Nt, const bool &m_MA, const double &m_q, const int &m_k, const int &m_m, const double &m_r2, const double &m_ce,
-                const double &m_c, const double &m_cl, const double &m_b, const vector< vector<float> > &m_L, const unordered_set<int> &m_Features, const int &m_rseed) :
-    pFS(m_pFS),KdTree_policy(m_KdTree_policy),Reward_policy(m_Reward_policy),Nt(m_Nt),MA(m_MA),q(m_q),k(m_k),m(m_m),r2(m_r2),ce(m_ce),c(m_c),cl(m_cl),b(m_b),L(m_L),n(m_L.size()),f(m_L[0].size()-1),Features(m_Features),rseed(m_rseed){}
+                const double &m_c, const double &m_cl, const double &m_b, const vector< vector<float> > &m_L, const unordered_set<int> &m_Features, const int &m_rseed, const double &m_alpha) :
+    pFS(m_pFS),KdTree_policy(m_KdTree_policy),Reward_policy(m_Reward_policy),Nt(m_Nt),MA(m_MA),q(m_q),k(m_k),m(m_m),r2(m_r2),ce(m_ce),c(m_c),cl(m_cl),b(m_b),L(m_L),n(m_L.size()),f(m_L[0].size()-1),Features(m_Features),rseed(m_rseed),alpha(m_alpha){}
 
 
 //variables
@@ -39,7 +39,7 @@ Variables::Variables():
 //Node
 Node::~Node(){}
 Node::Node(boost::dynamic_bitset<> F, int node_address) :
-    address(node_address), sub_F(F), F_size(F.count()), T_F(0),Tt_F(0),av_F(0),Score_av(0),sg_F(0),Score_f(F.size()-1),fs(3),fr(3),address_f(F.size()-1,-1),lRAVE_f(F.size()),tobe_updated(0),already_updated_score(0),weight(0) {}
+    address(node_address), sub_F(F), F_size(F.count()), T_F(0),Tt_F(0),av_F(0),Score_av(0),sg_F(0),Score_f(F.size()-1),fs(3),fr(3),address_f(F.size()-1,-1),lRAVE_f(F.size()),tobe_updated(0),already_updated_score(0),weight(0),selected_through_descent(0) {}
 
 
 

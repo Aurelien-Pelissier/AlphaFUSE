@@ -349,7 +349,13 @@ Node Find_Best_Node_Path_Av(const Tree &T, const Params &params)
             }
         }
 
-        //choosing the most visited child node
+        if (F.count()== 5) ///THIS WAS ADDED ONLY FOR THE EXPERIEMENT - FIX THE DEPTH OF BEST LEAF TO 5
+        {
+            cout << " " << "fs" << " ";
+            break;
+        }
+
+        //choosing the child node with highest av
         tf = TF.rbegin()->first;
         fi = TF.rbegin()->second;
         selected_features.push_back(fi);
@@ -555,28 +561,32 @@ void print_results(const Tree &T, const vector <pair<double,int>> &gRAVE, const 
 
     //----------------------------------------- Print on console -----------------------------------------//
 
-    print_gRAVE(gRAVE);
-    print_Node(T, T.N[0]);
+    bool print_console = 0;
 
-    Node N_best_final = Find_Best_Node_Final(T);
-    print_Node(T, N_best_final);
+    if (print_console == 1)
+    {
+        print_gRAVE(gRAVE);
+        print_Node(T, T.N[0]);
 
-    Node N_best_path = Find_Best_Node_Path(T, params);
-    print_Node(T, N_best_path);
+        Node N_best_final = Find_Best_Node_Final(T);
+        print_Node(T, N_best_final);
 
-    Node N_best_path_avfs = Find_Best_Node_Path_Avfs(T, params);
-    print_Node(T, N_best_path_avfs);
+        Node N_best_path = Find_Best_Node_Path(T, params);
+        print_Node(T, N_best_path);
 
-    Node N_best_path_av = Find_Best_Node_Path_Av(T, params);
-    print_Node(T, N_best_path_av);
+        Node N_best_path_avfs = Find_Best_Node_Path_Avfs(T, params);
+        print_Node(T, N_best_path_avfs);
 
-    cout << "  Final Tree length:     |T| = " << T.N.size() << endl;
-    cout << "  Computation time:       t  = " << variables.time << "s" << endl << endl << endl;
-    cout << "============================================================================================";
+        Node N_best_path_av = Find_Best_Node_Path_Av(T, params);
+        print_Node(T, N_best_path_av);
+
+        cout << "  Final Tree length:     |T| = " << T.N.size() << endl;
+        cout << "  Computation time:       t  = " << variables.time << "s" << endl << endl << endl;
+        cout << "============================================================================================";
+    }
+
 
     cout << endl << endl << endl << " Saving result in txt files ..." << endl << endl;
-
-
 
 
     //--------------------------------------- Print simulation file ---------------------------------------//
@@ -711,7 +721,8 @@ void print_results(const Tree &T, const vector <pair<double,int>> &gRAVE, const 
         cout << setw(7) << std::setfill('0') << T.N.size() << "     ";
         cout << setprecision(4) << reward << "     ";
         cout << setfill ('0') << setw(7) << depth << "     ";
-        cout << setw(7) << std::setfill('0') << (int)N_best_path.fs[0] << "     ";
+        Node N_best_path_av = Find_Best_Node_Path_Av(T, params);
+        cout << setw(7) << std::setfill('0') << (int)N_best_path_av.fs[0] << "     ";
         cout << setprecision(2) << params.q << "     ";
         cout << setw(2) << std::setfill('0') << params.k << "     ";
         cout << setw(3) << std::setfill('0') << params.m << "     ";

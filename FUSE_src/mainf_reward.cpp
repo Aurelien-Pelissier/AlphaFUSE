@@ -26,7 +26,7 @@ using namespace alglib;
 
 
 int rand_int(int a, int b, int rseed)
-//reuturn an integer unifomly selected between a and b
+//return an integer uniformly selected between a and b
 {
   static std::mt19937 generator(rseed); //static is important to avoid the generator returning always the same number
   std::uniform_int_distribution<int> distribution (a,b);

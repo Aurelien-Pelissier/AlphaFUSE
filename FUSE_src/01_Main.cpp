@@ -9,11 +9,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2018-03-12                                                                                              //
-// Updated : 2018-05-01                                                                                              //
+// Updated : 2019-07-26                                                                                              //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -51,14 +52,18 @@ int main ( int argc, char *argv[] )
 
 
 
-
-    Find_Features(argv);
+    int Nrepeat = stoi(argv[7]);
+    for (int rseed=0; rseed<Nrepeat; rseed++)
+    {
+        Find_Features(argv, rseed);
+        cout << endl;
+    }
 
     return 0;
 }
 
 
-void Find_Features(char *argv[])
+void Find_Features(char *argv[], int rseed)
 {
     //just checking if 32bit or 64bit
     //vector<float> vector_float;
@@ -69,7 +74,7 @@ void Find_Features(char *argv[])
 
         cout << endl;
         cout << " |-----------------------------------------------------------------------------------------------|" << endl;
-        cout << " |---------------------------------- FEATURE SELECTION - FUSE2 ----------------------------------|" << endl;
+        cout << " |-------------------------------- FEATURE SELECTION - alphaFUSE --------------------------------|" << endl;
         cout << " |-----------------------------------------------------------------------------------------------|" << endl << endl;
 
 
@@ -79,20 +84,21 @@ void Find_Features(char *argv[])
 //================================================== Important simulation parameters ==================================================//
 //=====================================================================================================================================//
 
-    int Nt = stoi(argv[1]);        //Number of iterations of the simulation
-    bool MA = 0;             //Many-Armed behavior, put 0 for Discrete and 1 for Continuous
+
+    double alpha = 1;    //Transposition parameter
+	double boot_frac = stod(argv[1]);  //size of the training subset (usefull to avoid overfitting)
+    int Nt = stoi(argv[2]);        //Number of iterations of the simulation
+    bool MA = 0;             //Many-Armed behavior, put 0 for Discrete and 1 for Continuous (only discrete is currently implemented)
     double q = 0.9;         //Random expansion parameter, used to control the average depth in the random phase, |q|<1, high q -> deep exploration
-    int k = stoi(argv[4]);               //Number of nearest neighbors involved in the reward function calculation
-    int m = 50;              //Size of aggressive subsample
+    int k = stoi(argv[5]);               //Number of nearest neighbors involved in the reward function calculation
         double r2 = 1;           //Ratio of reward training set size / Training set size (not used anymore)
     double ce = 2;           //UCB exploration control parameter (used in both discrete and continuous heuristic)
     double c = 20;           //Continuous heuristic exploration parameter (RAVE score weight)
     double cl = 200;         //l-RAVE/g-RAVE weight
     double b = 0.26;         //Discrete heuristic exploration parameter, |b|<1
 
-    int rseed = stoi(argv[6]);          //seed of the random generator
 
-    bool Reward_policy = stoi(argv[5]);  //0 for Accuracy (ACC) and 1 for Area Under Curve (AUC)
+    bool Reward_policy = stoi(argv[6]);  //0 for Accuracy (ACC) and 1 for Area Under Curve (AUC)
     bool KNN_policy = 0;     //0 for naive kNN search, 1 for KD-Tree kNN search
 
 
@@ -106,8 +112,6 @@ void Find_Features(char *argv[])
 
 
 
-
-
 //============================================================= Training set ==========================================================//
 
     cout << endl << "  Reading the dataset ..." << endl << endl;
@@ -118,21 +122,25 @@ void Find_Features(char *argv[])
 
     if (with_data)
     {
-        string data = argv[2];            //Training set file
-        string labels = argv[3];         //Training set file
+        string data = argv[3];            //Training set file
+        string labels = argv[4];         //Training set file
         L0 = concatenate(read_matrix(data), read_matrix(labels));  //training set matrix L[n][f+1] read from set from the file
     }
 
     else
     {
         L0 = linear_dataset(300, 30, 10);
+        save_dataset(L0,string("Linear"));
     }
 
     int n = L0.size();
     int f = L0[0].size()-1;
-    int n2 = n*0.75;
+    int n2 = n*boot_frac;
 
     vector<vector<float>> L = subsample(L0,n,f,n2, rseed);
+
+    int m0 = 0.5*n2;
+    int m = min(50,m0);              //Size of aggressive subsample
 
 
 
@@ -140,6 +148,6 @@ void Find_Features(char *argv[])
 //======================================================= Running the simulation ======================================================//
 //=====================================================================================================================================//
 
-    Params params = Params(pFS,KNN_policy,Reward_policy,Nt,MA,q,k,m,r2,ce,c,cl,b,L,Features,rseed);
+    Params params = Params(pFS,KNN_policy,Reward_policy,Nt,MA,q,k,m,r2,ce,c,cl,b,L,Features,rseed, alpha);
     Run_feature_selection(params);
 }

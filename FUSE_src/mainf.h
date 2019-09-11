@@ -16,7 +16,7 @@
 
 
 //main
-void                                    Find_Features(char *argv[]);
+void                                    Find_Features(char *argv[], int Nrepeat);
 void                                    Run_feature_selection(Params &params);
 void                                    Run_FUSE(Tree &T, std::vector <std::pair<double,int>> &gRAVE, Params &params, boost::dynamic_bitset<> &F, Variables &variables, int it);
 double                                  reward(const boost::dynamic_bitset<> &F, const Params &params);

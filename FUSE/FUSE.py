@@ -3,40 +3,55 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def main():
+    
+    
+    print("\n") 
+    print("\n") 
+    print("==================================================================================") 
+    print("=================================== Alpha-FUSE ===================================") 
+    print("==================================================================================\n") 
+    
+    # An accurate simulation would need at least Nrepeat = 100 and Nt = 200000, but involve overnight computation
+    # Running with boot_frac = 1, Nrepeat = 1 and Nt = 200000 can already give you a good feature set.
+      
 
-    Nrepeat =  5 #Number of time we apply FUSE
+    Nrepeat =  1   #Number of time we apply FUSE (results will be averaged)
       #(Obtained best feature subset after each execution is saved in BigResuts.txt)
-    
-    Nt = 10000                  #Number of iteration per FUSE execution
-    dataset = 'Madelon.data'    #Name of the file containing the dataset
-    labels = 'Madelon.labels'   #Name of the file containing the corresponding labels
-    k = 20                      #Number of nearest neighbors for reward computation
-    reward = 'AUC'              #ACC or AUC
-    rseed = 0                   #Seed of random generator
-
-
-
-    
-    
+    Nt = 100000                  #Number of iteration per FUSE execution
+    boot_frac = 0.75             #Number of example to consider at each FUSE execution (relatively to the number of total example) - usefull to avoid overfitting
+    dataset = 'Madelon.data'     #Name of the file containing the dataset
+    labels = 'Madelon.labels'    #Name of the file containing the corresponding labels
+    k = 5                        #Number of nearest neighbors for reward computation
+    reward = 'ACC'               #ACC for accuracy or AUC
     if reward == 'AUC':
         bool_reward = 1
     else:
-        bool_reward = 1
+        bool_reward = 0
+      
     
-    #re
+
+
     try:
-        os.remove("BigResults.txt")
+        os.remove("BigResults.txt") #File containign the results of FUSE simulation
     except OSError:
         pass
-
-    for rseed in range( Nrepeat):
-        os.system('FUSE.exe ' + str(Nt) + ' ' + dataset + ' ' + labels + ' ' + str(k) + ' ' + str(bool_reward) + ' ' + str(rseed))
-   
+    
+    #launch alphaFUSE
+    #let the the simulation run (can take time)
+    print("  Running %s FUSE simulations with %s iterations each ..." % (Nrepeat,Nt))
+    os.system('Feature_Selection.exe ' + str(boot_frac) + ' ' + str(Nt) + ' ' + dataset + ' ' + labels + ' ' + str(k) + ' ' + str(bool_reward) + ' ' + str(Nrepeat))
         
-    #Read and plot results from BigResults.txt
-    study_FUSE_results(dataset)
+    #Get the Results     
+    scores = study_FUSE_results(dataset)
+    np.save("FUSEscores",scores)
     
+    rank = np.argsort(-scores)
+    print("\n")
+    for i in range(5):
+        print("   %sth score is feature %s with a score of %.2f " % (i+1, rank[i], scores[rank[i]]))
     
+        
+        
     
     
     
@@ -79,14 +94,17 @@ def study_FUSE_results(dataset):
     acc /= nFUSE
     n_wav /= nFUSE
     
-    plt.plot(scores)
+    plt.figure(figsize=(7,4))
+    n, bins, patches = plt.hist(np.arange(len(scores)),bins=len(scores), weights=scores,alpha=0.7, rwidth=0.85, color="red")
     plt.xlabel("Feature index")
     plt.ylabel("Score (= occurence in best feature set)")
-	plt.show()
-    
+    plt.show()
+
     print("  FUSE was executed %.0f times" % nFUSE)
     print("  FUSE average final reward is %.3f" % acc)
     print("  Average number of features selected is %.3f" % n_wav)
+    
+    return scores
     
 
 if __name__ == "__main__":

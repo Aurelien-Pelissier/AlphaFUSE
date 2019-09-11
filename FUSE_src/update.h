@@ -20,9 +20,9 @@ void                                     Add_Familly(Tree &T, const boost::dynam
 void                                     Update_node_av_var(Node &node, const Node &chnode);
 
 //backpropagation
-void                                  Backpropagate(Tree &T, Node &node, const int &fi, const boost::dynamic_bitset<> &Ft, const double &reward_V );
+void                                  Backpropagate(Tree &T, Node &node, const int &fi, const boost::dynamic_bitset<> &Ft, const double &reward_V, const Params &params);
 void                                  Check_Ancestors(Tree &T, Node &node);
-void                                  Compute_Weights(Tree &T, Node &node, double current_weight);
+void                                  Compute_Weights(Tree &T, Node &node, double current_weight, double alpha);
 void                                  Update_Ancestors(Tree &T, Node &node, const int &f_last, const boost::dynamic_bitset<> &Ft, const double &reward_V );
 
 void                                  Update_Node(Tree &T, Node &node, const int &fi, const boost::dynamic_bitset<> &Ft, const double &reward_V);

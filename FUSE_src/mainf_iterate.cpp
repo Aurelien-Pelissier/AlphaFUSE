@@ -54,7 +54,7 @@ double iterate(Tree &T, vector <pair<double,int>> &gRAVE, boost::dynamic_bitset<
         depth = F.count()-1;
         reward_V = T.N[parent_node_address].fs[1];
         Update_gRAVE(gRAVE, F, reward_V);
-        Backpropagate(T, T.N[parent_node_address], fi, F, reward_V);
+        Backpropagate(T, T.N[parent_node_address], fi, F, reward_V, params);
         //cout << "  final selected" << endl;
     }
 
@@ -62,6 +62,7 @@ double iterate(Tree &T, vector <pair<double,int>> &gRAVE, boost::dynamic_bitset<
     {
         parent_node_address = Update_Tree_And_Get_Adress(T, F, params);
         parent_node_address_rec = parent_node_address;
+        T.N[parent_node_address_rec].selected_through_descent = true; //store the descent path in the nodes
 
         if (limit_depth)
         {
@@ -87,7 +88,7 @@ double iterate(Tree &T, vector <pair<double,int>> &gRAVE, boost::dynamic_bitset<
                 depth = F.count();
                 reward_V = iterate_random(T,F,params);
                 Update_gRAVE(gRAVE, F, reward_V);
-                Backpropagate(T, T.N[parent_node_address], fi, F, reward_V);
+                Backpropagate(T, T.N[parent_node_address], fi, F, reward_V, params);
                 //cout << "  random selected from UCB" << endl;
             }
             else //add the feature to the feature set
@@ -106,7 +107,7 @@ double iterate(Tree &T, vector <pair<double,int>> &gRAVE, boost::dynamic_bitset<
             depth = F.count();
             reward_V = iterate_random(T,F,params);
             Update_gRAVE(gRAVE, F, reward_V);
-            Backpropagate(T, T.N[parent_node_address], fi, F, reward_V);
+            Backpropagate(T, T.N[parent_node_address], fi, F, reward_V, params);
             //cout << "  random selected for address " << parent_node_address << endl;
         }
         T.N[parent_node_address_rec].Tt_F++;

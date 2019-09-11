@@ -11,7 +11,7 @@ class Params
 
     //Builders & Destroyers
     Params(const bool &m_pFS, const bool &m_KdTree_policy, const bool &m_Reward_policy, const int &m_Nt, const bool &m_MA, const double &m_q, const int &m_k, const int &m_m, const double &m_r2, const double &m_ce, const double &m_c,
-            const double &m_cl, const double &m_b, const std::vector< std::vector<float> > &m_L, const std::unordered_set<int> &m_Features, const int &m_rseed);
+            const double &m_cl, const double &m_b, const std::vector< std::vector<float> > &m_L, const std::unordered_set<int> &m_Features, const int &m_rseed, const double &m_alpha);
     ~Params();
 
     //Attributes
@@ -31,6 +31,7 @@ class Params
     bool Reward_policy;
     bool KdTree_policy;
     int rseed;
+    double alpha;   //Transposition parameter
 
     int n;
     int f;
