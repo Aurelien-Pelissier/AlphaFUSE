@@ -1,4 +1,4 @@
-# Feature-Selection-as-Reinforcement-Learning
+# AlphaFUSE  -  Feature-Selection-as-Reinforcement-Learning
 
 <img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/latt.png" width=400>
 
@@ -16,7 +16,7 @@ This repository contains the source code to perform feature selection with a rei
 #### Requirements
 The algorithm can be run directly with Alpha_FUSE.py for Windows user.
 
-The source is available in the `src/` foler, it requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or compilethe whole folder if you are using another IDE.
+The source code is available in the `src/` folder, it requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or compilethe whole folder if you are using another IDE.
 
 #### Datasets
 alphaFUSE uses 2 files for the dataset. the first one (.data), `L[n][f]` is a matrix where *n* is the number of training example and *f* the number of features. the second one (.labels), is a column array containing the labels for each example in the dataset, anything related to the reading of the dataset is implemented in `dataset.cpp`.
@@ -60,7 +60,7 @@ Once the stopping feature has been selected, the exploration stops and the rewar
 
 The original FUSE algorithm backpropagate the reward only for the nodes withing the current path. Updating all the parents might results in unpracticle updating time as the number of nodes to be updated at depth *d* scales as *d*!. Updating all the parents also does not guarantee the convergence of the UCT algorithm.
 
-<img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/MCTS.png" width=200>
+<img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/blob/master/img/backpropagation.png" width=500>
 
 
 ### Simulation parameters
