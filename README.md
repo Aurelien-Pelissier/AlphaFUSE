@@ -4,7 +4,7 @@
 
 Dataset often contains many features that are either redundant or irrelevant, and can thus be removed without incurring much loss of information. Decreasing the number of feature have the advantage of reducing overfitting, simplifying models, and also involve shorter training time, which makes it a key aspect in machine learning. 
 
-This repository contains the source code to perform feature selection with a reinforcement learning approach, where the feature set state space is represented by a Direct Acyclic Graph (DAG). It provides the C++ implementation of two Monte Carlo DAG Search algorithms. The first one, FUSE [1], starts from the empty feature subset and relies on UCT to identify the best feature subest in the DAG with a fixed budget, while the second one, BLI-MCDS [2] solve the Best Arm Identification problem at different stage in the DAG in the fixed confidence setting.
+This repository contains the source code to perform feature selection with a reinforcement learning approach, where the feature set state space is represented by a Direct Acyclic Graph (DAG). It provides the C++ implementation of and improved Monte Carlo DAG Search algorithms. alphaFUSE [1], starts from the empty feature subset and relies on UCT to identify the best feature subest in the DAG with a fixed budget, The information is efficiently backpropagated through all the ancestor nodes after each iteration for an optimal gain of information.
 
 
 &nbsp;
@@ -14,10 +14,12 @@ This repository contains the source code to perform feature selection with a rei
 ## Running the code
 
 #### Requirements
-Both algorithm are available in the `src/` foler, they require the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or run the `Cmake_build/Makefile` in a command prompt if you are using Make. The Makefiles were generated for MinGW, but it is possible to generate other Makefiles with Cmake if you are using different compilers.
+The algorithm can be run directly with FUSE.py for windows user.
+
+The source is available in the `src/` foler, it requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or compilethe whole folder if you are using another IDE.
 
 #### Datasets
-The dataset is implemented as a matrix `L[n][f+1]` where *n* is the number of training example and *f* the number of features, the last colomun in the matrix correspond to the labels. The folder contains different functions to read dataset files such as `read_dataset()`, and all the code related to the training set is implemented in `dataset.cpp`.
+alphaFUSE uses 2 files for the dataset. the first one (.data), `L[n][f]` is a matrix where *n* is the number of training example and *f* the number of features. the second one (.labels), is a column array containing the labels for each example in the dataset, anything related to the reading of the dataset is implemented in `dataset.cpp`.
 
 
 #### The feature set space and stopping feature
@@ -63,6 +65,7 @@ The original FUSE algorithm backpropagate the reward only for the nodes withing 
 The main simulation parameters can be changed in `src/Main.cpp`.
 
 ```c++
+    alpha = 1;     //Transposition parameter
     Nt = 100000;   //Number of iterations of the simulation
     q = 0.98;      //Random expansion parameter, used to control the average depth in the random phase, |q|<1
     k = 5;         //Number of nearest neighbors involved in the reward calculation
@@ -73,7 +76,7 @@ The main simulation parameters can be changed in `src/Main.cpp`.
     
     L[n][f+1] = read_dataset("dataset.dat");  //Training set matrix
 ```
-For details about the parameters, please refer to the implementation details described in [1].
+For details about the parameters, please refer to the implementation details described in [1,2].
 
 ### Output
 
@@ -89,46 +92,13 @@ By running `plot_reward.py` (requires `Python 3`), we can plot the evelution of 
 
 All the informations are available in output files `Output_Tree.txt`, `Output_Reward.txt` and `Result.txt`.
 
-
-
-&nbsp;
-
-## BLI-MCDS Algorithm details
-
-BLI-MCDS solve the Best Arm Identification problem at different nodes in the DAG to select the best feature subset in the fixed confidence setting, which means that the algorithm stops when the returned feature set is theoretically guaranteed with confidence *1 - delta* and precision *epsilon*.
-
-### Simulation parameters
-The main simulation parameters can be changed in `src/Main.cpp`.
-
-```c++
-    eps = 0.005;     //accuracy parameter
-    delta = 0.1;     //risk parameter
-    b = 0.3;         //expansion parameter 0 < b < 1
-    q = 0.98;        //Random expansion parameter, used to control the average depth in the random phase, |q|<1
-    k = 5;           //Number of nearest neighbors involved in the reward calculation
-    m = 50;          //Size of the small subsample for the reward calculation
-    cl = 200;        //l-RAVE/g-RAVE weight in RAVE score
-    
-    L[n][f+1] = read_dataset("dataset.dat");  //Training set matrix
-```
-For details about the parameters, please refer to the implementation details described in [2].
-
-&nbsp;
-
-### Output
-
-When the simulation is finished, the program return the candidate for the best feature set and the number of leaf evaluated during the search.
-
-`
-Best feature subset after 278306 iterations:
- [ 5  1  2 ] with reward [ 0.5907  0.9412  0.9943 ]` 
+- The python interface allows alphaFUSe to be run more several times and to average the result over different seeds. The obtained features after each FUSE execution is saved in `BigResults.txt`
 
 
 
 
 ## References
 
-[1]: Gaudel, Romaric, and Michele Sebag. "Feature selection as a one-player game." International Conference on Machine Learning. 2010. [https://hal.inria.fr/inria-00484049/document].
+[1]: A.  Pelissier,  A.  Nakamura.   "Backpropagation Phase in Upper Confidence Bound for Single Rooted Directed Analytic Graph". Unpublished.
 
-[2]: A.  Pelissier,  A.  Nakamura,  and  K.  Tabata.   "Feature  selection  as  Monte-Carlo  Search  in Growing Single Rooted Directed Acyclic Graph by Best Leaf Identification". ArXiv preprint, November 2018 [https://arxiv.org/abs/1811.07531].
-
+[2]: Gaudel, Romaric, and Michele Sebag. "Feature selection as a one-player game." International Conference on Machine Learning. 2010. [https://hal.inria.fr/inria-00484049/document].
