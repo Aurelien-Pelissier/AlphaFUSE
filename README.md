@@ -58,7 +58,7 @@ Once the stopping feature has been selected, the exploration stops and the rewar
 
 #### Backpropagation phase
 
-The original FUSE [2] algorithm backpropagate the reward only for the nodes withing the current path. In alphaFUSE [1], the reward is backpropagated to all ancestor nodes. Since the number of nodes to be updated at depth *d* scales as *d!*, the backpropagation is said to be exponential.
+The original FUSE [2] algorithm backpropagate the reward only for the nodes withing the current path. In alphaFUSE [1], the reward is backpropagated to all ancestor nodes. Since the number of nodes to be updated at depth *d* scales as *2^d*, the backpropagation is said to be exponential.
 
 <img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/backpropagation.png" width=700>
 
