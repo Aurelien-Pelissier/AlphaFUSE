@@ -1,6 +1,6 @@
 # AlphaFUSE  -  Feature-Selection-as-Reinforcement-Learning
 
-<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/latt.png" width=400>
+<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/latt.png" width=400>
 
 Dataset often contains many features that are either redundant or irrelevant, and can thus be removed without incurring much loss of information. Decreasing the number of feature have the advantage of reducing overfitting, simplifying models, and also involve shorter training time, which makes it a key aspect in machine learning. 
 
@@ -23,7 +23,7 @@ alphaFUSE uses 2 files for the dataset. the first one (.data), `L[n][f]` is a ma
 
 
 #### The feature set space and stopping feature
-<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/FS.png" width=225>
+<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/FS.png" width=225>
 We define a graph for which each node correspond to a feature set F, adding a feature to this feature set lead to a child node, and removing a feature lead to a parent node. The root of the graph is the empty feature subset. For each node, we also consider the stopping feature fs, which allows the search to stop at the current node instead of adding new features.
 
 
@@ -34,7 +34,7 @@ We define a graph for which each node correspond to a feature set F, adding a fe
 
 ## FUSE Algorithm details
 
-<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/MCTS.png" width=200>
+<img align="right" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/MCTS.png" width=200>
 
 FUSE relies on the well known UCT algorithm to perform Monte Carlo seach in the feature DAG, and stop when the given number of iteration is reached. At the end of the search, the recommended feature subset is the one at the end of the path with highest average.
 
@@ -42,7 +42,7 @@ FUSE relies on the well known UCT algorithm to perform Monte Carlo seach in the 
 
 #### UCT phase
 for a node *F*, the selected child *f* node is the one maximizing its UCB Score:
-<img src="https://raw.githubusercontent.com/Aurelien-Pelissier/Feature-Selection-as-Reinforcement-Learning/master/img/UCB.png" width=400>  
+<img src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/UCB.png" width=400>  
 *TF* is the number of visit of node *F*, and due to the high branching factor of the tree, the exploration is limited to an *Allowed feature* set, which restrict the number of considered child nodes depending of *TF*. A new child node is added whenever int\[*TF*^*b*\] is incremented. 
 
 To know which feature to add, we consider the one maximizing its RAVE score, which depends on the average reward over all final node *F* containing *f*.
@@ -60,7 +60,7 @@ Once the stopping feature has been selected, the exploration stops and the rewar
 
 The original FUSE algorithm backpropagate the reward only for the nodes withing the current path. Updating all the parents might results in unpracticle updating time as the number of nodes to be updated at depth *d* scales as *d*!. Updating all the parents also does not guarantee the convergence of the UCT algorithm.
 
-<img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/blob/master/img/backpropagation.png" width=500>
+<img align="center" src="https://raw.githubusercontent.com/Aurelien-Pelissier/AlphaFUSE/master/img/backpropagation.png" width=700>
 
 
 ### Simulation parameters
