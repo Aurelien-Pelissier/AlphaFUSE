@@ -14,9 +14,9 @@ This repository contains the source code to perform feature selection with a rei
 ## Running the code
 
 #### Requirements
-The algorithm can be run directly with Alpha_FUSE.py for Windows user.
+The algorithm can be run directly with `alphaFUSE/Alpha_FUSE.py` for Windows user.
 
-The source code is available in the `src/` folder, it requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. To compile the code, you can either open the project file `src/Feature_Selection.cbp` in Code::Blocks, or compilethe whole folder if you are using another IDE.
+The source code is available in the `alphaFUSE_src/` folder, compiling the code requires the `boost` library (available at https://www.boost.org/) and a `c++14` compiler. The .exe file was generated with Code::Blocks IDE, the project can be open with `alphaFUSE_src/Feature_Selection.cbp`.
 
 #### Datasets
 alphaFUSE uses 2 files for the dataset. the first one (.data), `L[n][f]` is a matrix where *n* is the number of training example and *f* the number of features. the second one (.labels), is a column array containing the labels for each example in the dataset, anything related to the reading of the dataset is implemented in `dataset.cpp`.
