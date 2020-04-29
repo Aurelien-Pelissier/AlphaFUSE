@@ -101,6 +101,6 @@ All the informations are available in output files `Output_Tree.txt`, `Output_Re
 
 ## References
 
-[1]: A.  Pelissier,  A.  Nakamura.   "Backpropagation Phase in Upper Confidence Bound for Single Rooted Directed Analytic Graph". Unpublished [https://docdro.id/MfYEuHz].
+[1]: A.  Pelissier,  A.  Nakamura.   "Backpropagation Phase in Upper Confidence Bound for Single Rooted Directed Analytic Graph". *Unpublished*. 20189. [https://docdro.id/MfYEuHz].
 
-[2]: Gaudel, Romaric, and Michele Sebag. "Feature selection as a one-player game." International Conference on Machine Learning. 2010. [https://hal.inria.fr/inria-00484049/document].
+[2]: Gaudel, Romaric, and Michele Sebag. "Feature selection as a one-player game." *International Conference on Machine Learning*. 2010. [https://hal.inria.fr/inria-00484049/document].
